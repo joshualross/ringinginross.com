@@ -1,0 +1,37 @@
+{{set . "title" "Ringing In Ross"}}
+{{template "header.html" .}}
+    <article id="rsvp" class="container box style3">
+        <header>
+            <h2>RSVP</h2>
+            <p>
+                Please enter your name as it appears on the invitation
+            </p>
+        </header>
+        <form method="post" action="{{url "Rsvp.NameSubmit"}}">
+            <div class="row 50%">
+                <div class="6u 12u$(mobile)">
+                    <input type="text" class="text" name="firstName" placeholder="First Name" />
+                </div>
+                <div class="6u$ 12u$(mobile)">
+                    <input type="text" class="text" name="lastName" placeholder="Last Name" />
+                </div>
+                <div class="12u$">
+                    <p>
+                        {{.flash.error}}
+                    </p>
+                    <div style="text-align:center">
+                        Will you be attending?
+                    </div>
+                    <ul class="actions">
+                        <li>
+                            <input type="submit" name="response" value="Yes" />
+                        </li>
+                        <li>
+                            <input type="submit" class="cancel" name="response" value="No" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </article>
+{{template "footer.html" .}}

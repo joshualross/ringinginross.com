@@ -1,0 +1,49 @@
+{{set . "title" "Ringing In Ross"}}
+{{template "header.html" .}}
+    <article id="rsvp" class="container box style3">
+        <header>
+            <h2>RSVP</h2>
+            <p>
+                To RSVP, please verify the names of the guests in your party along with any restrictions
+            </p>
+        </header>
+        <form method="post" action="{{url "Rsvp.DetailSubmit"}}">
+            <input type="hidden" name="partyUUID" value="{{.partyUUID}}"/>
+            <div class="row 50%">
+                {{range .guests}}
+                    <article class="12u$">
+                        <h2>{{.FirstName}} {{.LastName}}</h2>
+                        <label>
+                            Attending
+                            <input type="checkbox" name="{{.UUID}}.Attending" checked />
+                        </label>
+                        <input type="text" class="text" name="{{.UUID}}.Email" placeholder="Email" />
+                        <label>
+                            Dietary Restrictions
+                            <select name="{{.UUID}}.DietaryRestrictions">
+                                <option selected value="">None</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="vegan">Vegan</option>
+                            </select>
+                        </label>
+                        <label>
+                            Allergies
+                            <input type="checkbox" name="{{.UUID}}.Allergy" />
+                        </label>
+                        <input type="text" class="text" name="{{.UUID}}.SpecialRequest" placeholder="Any special requests? Allergy details?"/>
+                    </article>
+                {{end}}
+                <div class="12u$">
+                    <ul class="actions">
+                        <p>
+                            {{.flash.error}}
+                        </p>
+                        <li>
+                            <input type="submit" value="Next" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </article>
+{{template "footer.html" .}}

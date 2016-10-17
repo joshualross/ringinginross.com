@@ -1756,6 +1756,14 @@
 				background: rgba(58, 57, 57, 0.025);
 			}
 
+		input[type="submit"].cancel {
+			background: #ff4a4a
+		}
+
+			input[type="submit"].cancel:hover {
+				background: #ff6464
+			}
+
 /* Box */
 
 	.box {

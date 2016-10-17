@@ -4,21 +4,19 @@
         <header>
             <h2>RSVP</h2>
             <p>
-                Please enter the password on your invitation.
+                Thanks for letting us know!  Would you like to send us a message?
             </p>
         </header>
-        <form method="post" action="{{url "Rsvp.Access"}}">
-            <div class="row">
-                <div class="12u">
-                    <input type="password" class="text" name="password" placeholder="Password" />
-                </div>
+        <form method="post" action="{{url "Rsvp.DeclineSubmit"}}">
+            <div class="row 50%">
                 <div class="12u$">
-                    <p>
-                        {{.flash.error}}
-                    </p>
+                    <textarea placeholder="Message"></textarea>
                     <ul class="actions">
+                        <p>
+                            {{.flash.error}}
+                        </p>
                         <li>
-                            <input type="submit" value="Next" />
+                            <input type="submit" value="Confirm" />
                         </li>
                     </ul>
                 </div>

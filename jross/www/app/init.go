@@ -1,6 +1,16 @@
 package app
 
-import "github.com/revel/revel"
+import (
+	"database/sql"
+	"fmt"
+
+	// load the mysql driver
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/revel/revel"
+)
+
+// DB is the database connection
+var DB *sql.DB
 
 func init() {
 	// Filters is the default set of global filters.
@@ -21,7 +31,7 @@ func init() {
 
 	// register startup functions with OnAppStart
 	// ( order dependent )
-	// revel.OnAppStart(InitDB)
+	// revel.OnAppStart(initDB)
 	// revel.OnAppStart(FillCache)
 }
 
@@ -35,4 +45,29 @@ var HeaderFilter = func(c *revel.Controller, fc []revel.Filter) {
 	c.Response.Out.Header().Add("X-Content-Type-Options", "nosniff")
 
 	fc[0](c, fc[1:]) // Execute the next filter stage.
+}
+
+// InitDB initializes the database
+func InitDB() {
+	if DB != nil {
+		err := DB.Ping()
+		if err == nil {
+			revel.INFO.Printf("DB connection still alive")
+			return
+		}
+	}
+
+	connstring := fmt.Sprintf(
+		"%s:%s@/%s",
+		revel.Config.StringDefault("database.user", ""),
+		revel.Config.StringDefault("database.pass", ""),
+		revel.Config.StringDefault("database.name", ""),
+	)
+
+	var err error
+	DB, err = sql.Open("mysql", connstring)
+	if err != nil {
+		revel.INFO.Println("DB Error", err)
+	}
+	revel.INFO.Println("DB Connected")
 }

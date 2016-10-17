@@ -1,0 +1,26 @@
+{{set . "title" "Ringing In Ross"}}
+{{template "header.html" .}}
+    <article id="rsvp" class="container box style3">
+        <header>
+            <h2>RSVP</h2>
+            <p>
+                Thanks for letting us know!  Would you like to send us a message?
+            </p>
+        </header>
+        <form method="post" action="{{url "Rsvp.ConfirmSubmit"}}">
+            <div class="row 50%">
+                <div class="12u$">
+                    <textarea placeholder="Message"></textarea>
+                    <ul class="actions">
+                        <p>
+                            {{.flash.error}}
+                        </p>
+                        <li>
+                            <input type="submit" value="Confirm" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </article>
+{{template "footer.html" .}}
