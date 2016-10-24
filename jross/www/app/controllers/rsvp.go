@@ -5,7 +5,6 @@ import (
 	"math/rand"
 
 	"github.com/revel/revel"
-	"ringinginross.com/jross/www/app"
 	db "ringinginross.com/jross/www/app/repositories"
 )
 
@@ -63,7 +62,6 @@ func (c Rsvp) Name() revel.Result {
 
 // NameSubmit queries for given first and last name
 func (c Rsvp) NameSubmit(response, firstName, lastName string) revel.Result {
-	defer app.DB.Close()
 
 	revel.INFO.Printf("Received parameters -> Response: %s, First: %s, Last: %s", response, firstName, lastName)
 
@@ -104,7 +102,6 @@ func (c Rsvp) DeclineSubmit() revel.Result {
 
 // Detail asks for specifics of the rsvp
 func (c Rsvp) Detail() revel.Result {
-	defer app.DB.Close()
 	guestUUID := c.Session["uuid"]
 	if guestUUID == "" {
 		c.Flash.Error(getErrorMessage(cookieError))
@@ -123,7 +120,6 @@ func (c Rsvp) Detail() revel.Result {
 
 // DetailSubmit saves the guests response
 func (c Rsvp) DetailSubmit(partyUUID string) revel.Result {
-	defer app.DB.Close()
 	revel.INFO.Print("Detail Submit for Party %s %T", partyUUID, partyUUID)
 	revel.INFO.Print("")
 	revel.INFO.Printf("params: %s %T", c.Params, c.Params)
