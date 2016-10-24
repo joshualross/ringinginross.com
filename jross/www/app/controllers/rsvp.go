@@ -151,29 +151,6 @@ func (c Rsvp) DetailSubmit(partyUUID string) revel.Result {
 		revel.INFO.Printf("guest %s: %s", guest.UUID, guest)
 	}
 
-	//revel.INFO.Printf("form: %s %T", c.Request.PostForm, c.Request.PostForm)
-	//uuids := c.Request.PostForm.Get("uuid[]")
-	//revel.INFO.Printf("uuids: %s %T", uuids, uuids)
-	//uuids = c.Request.PostForm.Get("uuid[]")
-	//revel.INFO.Printf("uuids: %s %T", uuids, uuids)
-	//revel.INFO.Print("")
-    //uuids := c.Params.Form.Get("uuid")
-    //revel.INFO.Printf("values: %s %T", uuids)
-    //revel.INFO.Print("")
-    //for i := range uuids {
-    //    revel.INFO.Println(uuids[i])
-    //}
-	//guests := c.Params.Form
-	//revel.INFO.Printf("%s", UUID)
-	//revel.INFO.Printf("%s", email)
-	//revel.INFO.Printf("%s", specialRequest)
-	//revel.INFO.Printf("%s", dietaryRestrictions)
-	//revel.INFO.Printf("%s", c.Params.Form)
-	//guests := c.Params.Form.Get("guests")
-	//revel.INFO.Printf("%s", c.Params.Form.Get("guests"))
-	//revel.INFO.Printf("%s", guests)
-	//revel.INFO.Printf("%s", c.Params.Values.Get("UUID"))
-	//revel.INFO.Printf("%s", c.Params.Values)
 	return c.Redirect(Rsvp.Confirm)
 }
 
