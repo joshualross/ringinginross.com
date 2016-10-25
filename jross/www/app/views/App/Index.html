@@ -45,7 +45,11 @@
 					Men in darker color suits or black for your core pieces
 				</p>
 				<footer>
-					<a href="{{url "Rsvp.Index"}}" class="button style2 scrolly">RSVP Here</a>
+                    {{if .test}}
+					    <a href="{{url "Rsvp.Index"}}" class="button style2 scrolly">RSVP Here</a>
+                    {{else}}
+                        RSVP coming soon!
+                    {{end}}
 				</footer>
 			</section>
 

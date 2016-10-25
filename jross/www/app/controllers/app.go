@@ -6,6 +6,6 @@ type App struct {
 	*revel.Controller
 }
 
-func (c App) Index() revel.Result {
-	return c.Render()
+func (c App) Index(test bool) revel.Result {
+	return c.Render(test)
 }
