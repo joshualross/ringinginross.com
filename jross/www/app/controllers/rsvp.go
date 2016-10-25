@@ -89,14 +89,30 @@ func (c Rsvp) NameSubmit(response, firstName, lastName string) revel.Result {
 
 // Decline verifies the user is coming
 func (c Rsvp) Decline() revel.Result {
-
-	return c.Render()
+	guestUUID := c.Session["uuid"]
+	partyUUID, err := db.GetPartyUUID(guestUUID)
+	if err != nil {
+		// render without party uuid, we will try again in the submit
+		partyUUID = ""
+	}
+	return c.Render(partyUUID)
 }
 
 // DeclineSubmit saves the guests response
 func (c Rsvp) DeclineSubmit() revel.Result {
+	// TODO save the decline message, if not empty
+	guestUUID := c.Session["uuid"]
+	message := c.Request.PostForm.Get("message")
+	partyUUID, err := db.GetPartyUUID(guestUUID)
+	if err != nil {
+		revel.ERROR.Printf("Unable to save message for guest %s: %s", guestUUID, message)
+	}
 
-	// TODO mark all in party yes or no? -> happens in NameSubmit
+	if err := db.SetDeclineMessage(partyUUID, message); err != nil {
+		revel.ERROR.Printf("Database error: %s", err)
+		revel.ERROR.Printf("Unable to save message for party %s: %s", partyUUID, message)
+	}
+
 	return c.Render()
 }
 
@@ -121,16 +137,7 @@ func (c Rsvp) Detail() revel.Result {
 // DetailSubmit saves the guests response
 func (c Rsvp) DetailSubmit(partyUUID string) revel.Result {
 	revel.INFO.Print("Detail Submit for Party %s %T", partyUUID, partyUUID)
-	revel.INFO.Print("")
-	revel.INFO.Printf("params: %s %T", c.Params, c.Params)
-    if err := c.Request.ParseForm(); err != nil {
-        // handle error
-    }
-	for key, values := range c.Request.PostForm {
-	    revel.INFO.Printf("Key: %s %T -> value: %s %T", key, key, values, values)
-	}
 	partyUUID = c.Request.PostForm.Get("partyUUID")
-	revel.INFO.Printf("partyUUID: %s %T", partyUUID, partyUUID)
 
 	guests, err := db.GetGuestsByPartyUUID(partyUUID)
 	if err != nil {
@@ -139,12 +146,26 @@ func (c Rsvp) DetailSubmit(partyUUID string) revel.Result {
 	}
 
 	for _, guest := range guests {
-		guest.Email = c.Request.PostForm.Get(guest.UUID + ".Email")
-		guest.DietaryRestriction = c.Request.PostForm.Get(guest.UUID + ".DietaryRestriction")
-		guest.Attending = c.Request.PostForm.Get(guest.UUID + ".Attending") == "on"
-		guest.Allergy = c.Request.PostForm.Get(guest.UUID + ".Allergy") == "on"
-		guest.SpecialRequest = c.Request.PostForm.Get(guest.UUID + ".SpecialRequest")
-		revel.INFO.Printf("guest %s: %s", guest.UUID, guest)
+		email := c.Request.PostForm.Get(*guest.UUID + ".Email")
+		dietary := c.Request.PostForm.Get(*guest.UUID + ".DietaryRestriction")
+		attending := c.Request.PostForm.Get(*guest.UUID + ".Attending") == "on"
+		allergy := c.Request.PostForm.Get(*guest.UUID + ".Allergy") == "on"
+		special := c.Request.PostForm.Get(*guest.UUID + ".SpecialRequest")
+
+
+		revel.INFO.Printf(
+			"Updating guest %s: (%s, %s, %v, %v, %s)",
+			*guest.UUID,
+			email,
+			dietary,
+			attending,
+			allergy,
+			special,
+		)
+		err := db.SetGuestInformation(*guest.UUID, email, dietary, special, attending, allergy)
+		if err != nil {
+			revel.ERROR.Printf("Update error %s", err)
+		}
 	}
 
 	return c.Redirect(Rsvp.Confirm)
@@ -152,13 +173,31 @@ func (c Rsvp) DetailSubmit(partyUUID string) revel.Result {
 
 // Confirm shows a thank you message
 func (c Rsvp) Confirm() revel.Result {
-	// TODO save song selection
-	return c.Render()
+	guestUUID := c.Session["uuid"]
+	partyUUID, err := db.GetPartyUUID(guestUUID)
+	if err != nil {
+		// render without party uuid, we will try again in the submit
+		partyUUID = ""
+	}
+	return c.Render(partyUUID)
 }
 
 
 // ConfirmSubmit stores the last submitted data
 func (c Rsvp) ConfirmSubmit() revel.Result {
+	guestUUID := c.Session["uuid"]
+	message := c.Request.PostForm.Get("message")
+	uber := c.Request.PostForm.Get("uber") == "on"
+	transportation := c.Request.PostForm.Get("transportation") == "on"
+	partyUUID, err := db.GetPartyUUID(guestUUID)
+	if err != nil {
+		revel.ERROR.Printf("Unable to save message for guest %s: %s", guestUUID, message)
+	}
+
+	if err := db.SetConfirmMessage(partyUUID, message, uber, transportation); err != nil {
+		revel.ERROR.Printf("Database error: %s", err)
+		revel.ERROR.Printf("Unable to save message for party %s: %s", partyUUID, message)
+	}
 
 	return c.Render()
 }

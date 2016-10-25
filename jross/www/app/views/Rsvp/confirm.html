@@ -4,13 +4,22 @@
         <header>
             <h2>RSVP</h2>
             <p>
-                Thanks for letting us know!  Would you like to send us a message?
+                Thanks for letting us know!  Just a few more questions...
             </p>
         </header>
         <form method="post" action="{{url "Rsvp.ConfirmSubmit"}}">
             <div class="row 50%">
                 <div class="12u$">
-                    <textarea placeholder="Message"></textarea>
+                    <input type="hidden" name="partyUUID" value="{{.partyUUID}}"/>
+                    <textarea name="message" placeholder="Tell us what songs will get you on the dance floor?"></textarea>
+                    <label>
+                        Are you planning on taking Uber to and from the wedding?
+                        <input type="checkbox" name="uber" />
+                    </label>
+                    <label>
+                        Are you interested in a possible shuttle?
+                        <input type="checkbox" name="transportation" />
+                    </label>
                     <ul class="actions">
                         <p>
                             {{.flash.error}}

@@ -10,7 +10,8 @@
         <form method="post" action="{{url "Rsvp.DeclineSubmit"}}">
             <div class="row 50%">
                 <div class="12u$">
-                    <textarea placeholder="Message"></textarea>
+                    <input type="hidden" name="partyUUID" value="{{.partyUUID}}"/>
+                    <textarea name="message" placeholder="Message"></textarea>
                     <ul class="actions">
                         <p>
                             {{.flash.error}}
