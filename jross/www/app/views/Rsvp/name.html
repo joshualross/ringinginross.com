@@ -4,7 +4,7 @@
         <header>
             <h2>RSVP</h2>
             <p>
-                Please enter your name as it appears on the invitation
+                Please enter your first and last name as it appears on the invitation
             </p>
         </header>
         <form method="post" action="{{url "Rsvp.NameSubmit"}}">
@@ -19,7 +19,7 @@
                     <p>
                         {{.flash.error}}
                     </p>
-                    <div style="text-align:center">
+                    <div style="text-align:center;margin-bottom:10px">
                         Will you be attending?
                     </div>
                     <ul class="actions">

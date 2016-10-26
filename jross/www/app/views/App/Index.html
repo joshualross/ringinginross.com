@@ -53,6 +53,18 @@
 				</footer>
 			</section>
 
+			<article id="registry" class="container box style3">
+				<header>
+					<h2><a href="https://www.honeyfund.com/wedding/Ringinginross" target="_blank">Registry</a></h2>
+				</header>
+				<p>
+					We are very grateful to have everything we need for our home together.
+					So in lieu of traditional housewares we hope you enjoy browsing
+					<a href="https://www.honeyfund.com/wedding/Ringinginross" target="_blank">our "experience" registry</a>.
+					We are headed to the Philippines and Australia for our honeymoon!
+				</p>
+			</article>
+
 		<!-- Feature 1 -->
 			<article id="first" class="container box style1 right">
 				<span class="image fit introduction"><img src="/public/img/pic01.jpg" alt="" /></span>
@@ -149,7 +161,7 @@
 					</header>
 					<p>
 						We’ve reserved a block of rooms at a rate of $99.99 plus tax. Please reference or enter the code Tanos-Ross Wedding when booking.
-						In order to secure the discounted rate, <b>please book by November 15th</b>s.
+						In order to secure the discounted rate, <b>please book by November 15th</b>.
 						No minimum night stay and pets allowed, <a href="https://goo.gl/maps/3oejWAxPjm32" target="_blank">2.4 miles away</a>.
 					</p>
 				</div>
@@ -199,29 +211,18 @@
 				</div>
 			</article>
 
-			<article id="registry" class="container box style3">
-				<header>
-					<h2><a href="https://www.honeyfund.com/wedding/Ringinginross" target="_blank">Registry</a></h2>
-				</header>
-				<p>
-					We are very grateful to have everything we need for our home together.
-					So in lieu of traditional housewares we hope you enjoy browsing
-					<a href="https://www.honeyfund.com/wedding/Ringinginross" target="_blank">our "experience" registry</a>.
-					We are headed to the Philippines and Australia for our honeymoon!
-				</p>
-			</article>
-
-
 		<!-- Contact -->
 			<article id="rsvp" class="container box style3">
 				<header>
-					<h2>RSVP</h2>
-					<p>
-						Check back soon to RSVP!<br/>
-						<!--Please RSVP by Thanksgiving Day, Thursday November 24, 2016.<br />-->
-						We look forward to celebrating with you!<br/>
-
-						<!--Please fill out the form below to RSVP.-->
+                    <p>
+                        We look forward to celebrating with you!<br />
+                        Please RSVP by Wednesday, November 30th, 2016
+                    </p>
+                    {{if .test}}
+					    <a href="{{url "Rsvp.Index"}}" class="button style3 scrolly">RSVP Here</a>
+                    {{else}}
+                        RSVP coming soon!
+                    {{end}}
 					</p>
 				</header>
 				<!--<form method="post" action="/rsvp">-->
