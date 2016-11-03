@@ -189,29 +189,56 @@ func SetGuestInformation(guestUUID, email, dietary, special string, attending, a
 		m := fmt.Sprintf("Error retrieving guest: %s", guestUUID)
 		return errors.New(m)
 	}
+	revel.INFO.Printf(
+		"Preparing update for guest %s: (%s, %s, %v, %v, %s)",
+		guestUUID,
+		email,
+		dietary,
+		attending,
+		allergy,
+		special,
+	)
+
+
+	var args []interface{}
 
 	query := `
 		UPDATE
 			guest
 		SET
-			email = ?,
-			attending = ?,
-			dietary_restriction = ?,
-			allergy = ?,
-			special_request = ?
+			attending = ?
+			, allergy = ?`
+	args = append(args, attending)
+	args = append(args, allergy)
+
+	if email != "" {
+		query += `
+			, email = ?`
+		args = append(args, email)
+	}
+
+	if dietary != "" {
+		query += `
+			, dietary_restriction = ?`
+		args = append(args, dietary)
+	}
+
+	if special != "" {
+		query += `
+			, special_request = ?`
+		args = append(args, special)
+	}
+
+	query += `
 		WHERE
 			uuid = ?
 	`
+	args = append(args, guestUUID)
 	revel.INFO.Printf("Query -> %s", query)
 
 	_, err = app.DB.Exec(
 		query,
-		email,
-		attending,
-		dietary,
-		allergy,
-		special,
-		guestUUID,
+		args...,
 	)
 
 	if err != nil {
