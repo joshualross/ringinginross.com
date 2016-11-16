@@ -94,6 +94,8 @@ func (c Rsvp) Decline() revel.Result {
 	if err != nil {
 		// render without party uuid, we will try again in the submit
 		partyUUID = ""
+	} else {
+		_ = db.SetGuestResponse(partyUUID, false)
 	}
 	return c.Render(partyUUID)
 }
